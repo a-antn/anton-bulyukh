@@ -46,3 +46,4 @@ double GetB(const double a, const double y, const double z, const double e)
 {
     return y * sin(a * pow(z, 2) * cos(2 * z)) - 1;
 }
+
