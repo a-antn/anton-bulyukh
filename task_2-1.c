@@ -9,7 +9,6 @@ double get_number(int order);
  */
 int get_action();
 
-
 enum
 {
     Amount,
