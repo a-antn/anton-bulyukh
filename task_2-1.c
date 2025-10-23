@@ -10,7 +10,13 @@ double get_number(int order);
 int get_action();
 
 
-
+/**
+ * @brief Перечисление действий с переменными
+ * @details Amount - Сложение
+ *          Difference - Вычитание
+ *          Multiplication - Умножение
+ *          Division - Деление
+ */
 enum
 {
     Amount,
@@ -42,6 +48,7 @@ int main(void)
         break;
     default:
         printf("Ошибка вывода");
+        return 1;
     }
     return 0;
 };
