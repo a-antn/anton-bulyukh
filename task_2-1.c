@@ -70,6 +70,7 @@ double get_number(int order)
     return -1;
 };
 
+
 int get_action()
 {
     printf("%d Сложение\n%d Вычитание\n%d Умножение\n%d Деление\n", Amount, Difference, Multiplication, Division);
