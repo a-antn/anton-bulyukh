@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 /** @brief Получает значение первого числа
  * @param order порядковый номер числа, тип int
  * @return Полученное число типа double, -1 в случае ошибки ввода
@@ -8,7 +10,6 @@ double get_number(int order);
  * @return Полученное число(номер операции) типа int, -1 в случае ошибки ввода
  */
 int get_action();
-
 
 /**
  * @brief Перечисление действий с переменными
@@ -47,13 +48,13 @@ int main(void)
         if (B == 0)
         {
             printf("Ошибка: Деление на ноль");
-            return 1;
+            abort();
         }
         printf("Частное чисел равно: %lf", A / B);
         break;
     default:
         printf("Ошибка вывода");
-        return 1;
+        abort();
     }
     return 0;
 };
@@ -62,12 +63,13 @@ double get_number(int order)
 {
     printf("Введите %d число: ", order);
     double number = 0;
-    if(scanf("%lf", &number)==1)
+    if(!scanf("%lf", &number)==1)
     {
-        return number;
+        printf("Ошибка ввода\n");    
+        abort();
+        
     }
-    printf("Ошибка ввода\n");
-    return -1;
+    return number;
 };
 
 
@@ -76,10 +78,11 @@ int get_action()
     printf("%d Сложение\n%d Вычитание\n%d Умножение\n%d Деление\n", Amount, Difference, Multiplication, Division);
     printf("Выберите операцию с переменными: ");
     int action;
-    if (scanf("%d", &action)==1 && action >= Amount && action <= Division)
+    if (!scanf("%d", &action) || action < Amount || action < Division)
     {
-        return action;
+        printf("Ошибка ввода\n");
+        abort();
+        
     }
-    printf("Ошибка ввода\n");
-    return -1;
+    return action;
 };
