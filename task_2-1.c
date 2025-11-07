@@ -88,11 +88,16 @@ int get_action()
     printf("%d Сложение\n%d Вычитание\n%d Умножение\n%d Деление\n", AMOUNT, DIFFERENCE, MULTIPLICATION, DIVISION);
     printf("Выберите операцию с переменными: ");
     int action = 0;
-    if (!scanf("%d", &action) || action < AMOUNT || action > DIVISION)
+    if (!scanf("%d", &action))
     {
-        fprintf(stderr, "Ошибка ввода\n");
+        fprintf(stderr, "Ошибка ввода(неверный формат)\n");
         abort();
         
+    }
+    else if (action < AMOUNT || action > DIVISION)
+    {
+        fprintf(stderr, "Ошибка ввода(неверный номер операции)\n");
+        abort();
     }
     return action;
 }
