@@ -119,6 +119,10 @@ int getValue(void) {
 }
 
 size_t getSize(char* message) {
+    if (message == NULL) {
+        fprintf(stderr, "Ошибка: message не может быть пустым");
+        exit(EXIT_FAILURE);
+    }
     printf("%s", message);
     int value = getValue();
     if (value <= 0) {
@@ -129,13 +133,21 @@ size_t getSize(char* message) {
 }
 
 void fillArray(int* array, const size_t size) {
+    if (array == NULL && size > 0) {
+        fprintf(stderr, "Ошибка: array не может быть пустым.");
+        exit(EXIT_FAILURE);
+    }
     for (size_t i = 0; i < size; i++) {
         printf("Введите %zu элемент массива: ", i);
         array[i] = getValue();
     }
 }
 
-void printArray(int* array, const size_t size) {
+void printArray(const int* array, const size_t size) {
+    if (array == NULL && size > 0) {
+        fprintf(stderr, "Ошибка: array не может быть пустым.");
+        exit(EXIT_FAILURE);
+    }
     for (size_t i = 0; i < size; i++) {
         printf("%d", array[i]);
     }
@@ -143,6 +155,10 @@ void printArray(int* array, const size_t size) {
 }
 
 void sumEven(int* array, const size_t size) {
+    if (array == NULL && size > 0) {
+        fprintf(stderr, "Ошибка: array не может быть пустым.");
+        exit(EXIT_FAILURE);
+    }
     int result = 0;
     for (size_t i = 0; i < size; i++) {
         if (array[i] % 2 == 0) {
@@ -154,9 +170,9 @@ void sumEven(int* array, const size_t size) {
 
 void fillRandom(int* array, const size_t size) {
     printf("Начало диапазона: ");
-    int start = getValue();
+    const int start = getValue();
     printf("Конец диапазона: ");
-    int end = getValue();
+    const int end = getValue();
     if (start >= end) {
         fprintf(stderr, "Ошибка введенного значения.");
         exit(EXIT_FAILURE);
@@ -167,7 +183,15 @@ void fillRandom(int* array, const size_t size) {
 }
 
 int* copiedArray(const int* array, const size_t size) {
+    if (array == NULL && size > 0) {
+        fprintf(stderr, "Ошибка: array не может быть пустым.");
+        exit(EXIT_FAILURE);
+    }
     int* copiedArray = malloc(sizeof(int)*size);
+    if (copiedArray == NULL) {
+        fprintf(stderr, "Ошибка: память не выделена.");
+        exit(EXIT_FAILURE);
+    }
     for (size_t i = 0; i < size; i++) {
         copiedArray[i] = array[i];
     }
