@@ -12,7 +12,7 @@ int getValue(void);
  * @param message сообщение о необходимости ввода массива
  * @return Размер массива
  */
-size_t getSize(char* message);
+size_t getSize(const char* message);
 
 /**
  * @brief Считывает значения элементов массива
@@ -26,14 +26,14 @@ void fillArray(int* array, const size_t size);
  * @param array Массив
  * @param size Размер массива
  */
-void printArray(int* array, const size_t size);
+void printArray(const int* array, const size_t size);
 
 /**
  * @brief Вычисляет сумму чётных элементов массива
  * @param array массив
  * @param size размер массива
  */
-void summEven(int* array, const size_t size);
+void summEven(const int* array, const size_t size);
 
 /**
  * @brief Заполняет массив рандомными числами в пределах введённого диапазона
@@ -55,15 +55,22 @@ int* copiedArray(const int* array, const size_t size);
  * @param array массив
  * @param size размер массива
  */
-void countDoubleDigitNums(int* array, const size_t size);
+void countDoubleDigitNums(const int* array, const size_t size);
 
 /**
  * @brief Заменяет крайний отрицательный элемент массива на модуль первого элемента массива
  * @param copiedArray копия массива
  * @param size размер массива
- * @return Возвращает 1, если функция выполнена корректно, 0 - если в массиве отсутствуют отрицательные элементы
+ * @return Возвращает True, в случае успеха, False - если в массиве отсутствуют отрицательные элементы
  */
-int replace(int* copiedArray, const size_t size);
+bool replace(int* copiedArray, const size_t size);
+
+/**
+ * @brief Проверяет, что массив != NULL
+ * @param array массив
+ * @param size размер массива
+/
+void checkArray(const int* array, const size_t size)
 
 /**
  * @brief RANDOM - заполнение массива рандомными числами в пределах введённого диапазона
@@ -81,10 +88,7 @@ enum {
 int main(void) {
     size_t size = getSize("Введите размер массива: ");
     int* array = malloc(size* sizeof(int));
-    if (array == NULL) {
-        fprintf(stderr, "Ошибка");
-        exit(EXIT_FAILURE);
-    }
+    checkArray(array, size);
     printf("Выберите способ заполнения массива: ");
     int way = getValue();
     switch (way)
@@ -108,6 +112,13 @@ int main(void) {
     return 0;
 }
 
+void checkArray(const int* array, const size_t size) {
+    if (array == NULL && size > 0) {
+        fprintf(stderr, "Ошибка.");
+        exit(EXIT_FAILURE);
+    }
+}
+
 int getValue(void) {
     int value = 0;
     int result = scanf("%d", &value);
@@ -118,7 +129,7 @@ int getValue(void) {
     return value;
 }
 
-size_t getSize(char* message) {
+size_t getSize(const char* message) {
     if (message == NULL) {
         fprintf(stderr, "Ошибка: message не может быть пустым");
         exit(EXIT_FAILURE);
@@ -133,10 +144,7 @@ size_t getSize(char* message) {
 }
 
 void fillArray(int* array, const size_t size) {
-    if (array == NULL && size > 0) {
-        fprintf(stderr, "Ошибка: array не может быть пустым.");
-        exit(EXIT_FAILURE);
-    }
+    checkArray(array, size);
     for (size_t i = 0; i < size; i++) {
         printf("Введите %zu элемент массива: ", i);
         array[i] = getValue();
@@ -144,21 +152,15 @@ void fillArray(int* array, const size_t size) {
 }
 
 void printArray(const int* array, const size_t size) {
-    if (array == NULL && size > 0) {
-        fprintf(stderr, "Ошибка: array не может быть пустым.");
-        exit(EXIT_FAILURE);
-    }
+    checkArray(array, size);
     for (size_t i = 0; i < size; i++) {
         printf("%d", array[i]);
     }
     printf("\n");
 }
 
-void sumEven(int* array, const size_t size) {
-    if (array == NULL && size > 0) {
-        fprintf(stderr, "Ошибка: array не может быть пустым.");
-        exit(EXIT_FAILURE);
-    }
+void sumEven(const int* array, const size_t size) {
+    checkArray(array, size);
     int result = 0;
     for (size_t i = 0; i < size; i++) {
         if (array[i] % 2 == 0) {
@@ -183,22 +185,16 @@ void fillRandom(int* array, const size_t size) {
 }
 
 int* copiedArray(const int* array, const size_t size) {
-    if (array == NULL && size > 0) {
-        fprintf(stderr, "Ошибка: array не может быть пустым.");
-        exit(EXIT_FAILURE);
-    }
+    checkArray(array, size);
     int* copiedArray = malloc(sizeof(int)*size);
-    if (copiedArray == NULL) {
-        fprintf(stderr, "Ошибка: память не выделена.");
-        exit(EXIT_FAILURE);
-    }
+    checkArray(copiedArray, size);
     for (size_t i = 0; i < size; i++) {
         copiedArray[i] = array[i];
     }
     return copiedArray;
 }
 
-void countDoubleDigitNums(int* array, const size_t size) {
+void countDoubleDigitNums(const int* array, const size_t size) {
     int count = 0;
     for (size_t i = 0; i < size; i++) {
         if ((array[i] >= 10 && array[i] <= 99) || (array[i] <= -10 && array[i] >= -99)) {
@@ -208,7 +204,7 @@ void countDoubleDigitNums(int* array, const size_t size) {
     }
 }
 
-int replace(int* copiedArray, const size_t size) {
+bool replace(int* copiedArray, const size_t size) {
     int firstAbs = abs(copiedArray[0]);
     for (size_t i = size; i > 0; i--) {
         if (copiedArray[i-1] < 0) {
@@ -218,9 +214,9 @@ int replace(int* copiedArray, const size_t size) {
                 printf("%d", copiedArray[j]);
             }
             printf("\n");
-            return 1;
+            return True;
         }
     }
     printf("В массиве нет отрицательных элементов.");
-    return 0;
+    return False;
 }
