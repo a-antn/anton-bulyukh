@@ -174,7 +174,7 @@ void sumEven(const int* array, const size_t size) {
 }
 
 void fillRandom(int* array, const size_t size) {
-    checkArra(array, size);
+    checkArray(array, size);
     printf("Начало диапазона: ");
     const int start = getValue();
     printf("Конец диапазона: ");
