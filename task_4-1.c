@@ -69,7 +69,7 @@ bool replace(int* copiedArray, const size_t size);
  * @brief Проверяет, что массив != NULL
  * @param array массив
  * @param size размер массива
-/
+*/
 void checkArray(const int* array, const size_t size)
 
 /**
@@ -114,6 +114,9 @@ int main(void) {
 
 void checkArray(const int* array, const size_t size) {
     if (array == NULL && size > 0) {
+        fprintf(stderr, "Ошибка.");
+        exit(EXIT_FAILURE);
+    } else if (array == NULL) {
         fprintf(stderr, "Ошибка.");
         exit(EXIT_FAILURE);
     }
@@ -171,6 +174,7 @@ void sumEven(const int* array, const size_t size) {
 }
 
 void fillRandom(int* array, const size_t size) {
+    checkArra(array, size);
     printf("Начало диапазона: ");
     const int start = getValue();
     printf("Конец диапазона: ");
@@ -195,6 +199,7 @@ int* copiedArray(const int* array, const size_t size) {
 }
 
 void countDoubleDigitNums(const int* array, const size_t size) {
+    checkArray(array, size);
     int count = 0;
     for (size_t i = 0; i < size; i++) {
         if ((array[i] >= 10 && array[i] <= 99) || (array[i] <= -10 && array[i] >= -99)) {
@@ -205,6 +210,7 @@ void countDoubleDigitNums(const int* array, const size_t size) {
 }
 
 bool replace(int* copiedArray, const size_t size) {
+    checkArray(copiedArray, size);
     int firstAbs = abs(copiedArray[0]);
     for (size_t i = size; i > 0; i--) {
         if (copiedArray[i-1] < 0) {
