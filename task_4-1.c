@@ -90,7 +90,7 @@ int main(void) {
     size_t size = getSize("Введите размер массива: ");
     int* array = malloc(size* sizeof(int));
     checkArray(array, size);
-    printf("Выберите способ заполнения массива: ");
+    printf("Выберите способ заполнения массива(1 - RANDOM, 2 - MANUAL): ");
     int way = getValue();
     switch (way)
         {
@@ -163,7 +163,7 @@ void fillArray(int* array, const size_t size) {
 void printArray(const int* array, const size_t size) {
     checkArray(array, size);
     for (size_t i = 0; i < size; i++) {
-        printf("%d", array[i]);
+        printf("%d ", array[i]);
     }
     printf("\n");
 }
@@ -211,8 +211,9 @@ void countDoubleDigitNums(const int* array, const size_t size) {
         if ((array[i] >= 10 && array[i] <= 99) || (array[i] <= -10 && array[i] >= -99)) {
             count++;
         }
-        printf("Кол-во двузначных элементов: %d.\n", count);
+       
     }
+    printf("Кол-во двузначных элементов: %d.\n", count);
 }
 
 bool replace(int* copiedArray, const size_t size) {
@@ -223,7 +224,7 @@ bool replace(int* copiedArray, const size_t size) {
             copiedArray[i-1] = firstAbs;
             printf("Новый массив: \n");
             for (size_t j = 0; j < size; j++) {
-                printf("%d", copiedArray[j]);
+                printf("%d ", copiedArray[j]);
             }
             printf("\n");
             return true;
