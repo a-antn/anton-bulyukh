@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /**
  * @brief Получает введённое с клавиатуры целое значение и проверяет на правильность ввода
@@ -70,7 +71,7 @@ bool replace(int* copiedArray, const size_t size);
  * @param array массив
  * @param size размер массива
 */
-void checkArray(const int* array, const size_t size)
+void checkArray(const int* array, const size_t size);
 
 /**
  * @brief RANDOM - заполнение массива рандомными числами в пределах введённого диапазона
@@ -105,9 +106,14 @@ int main(void) {
             exit(EXIT_FAILURE);
         }
     printArray(array, size);
+    printf("\n");
     summEven(array, size);
-    countDoubleDigitNums(copiedArray, size);
-    free(copiedArray);
+    printf("\n");
+    countDoubleDigitNums(array, size);
+    printf("\n");
+    int* copiedArr = copiedArray(array, size);
+    replace(copiedArr, size);
+    free(copiedArr);
     free(array);
     return 0;
 }
@@ -162,7 +168,7 @@ void printArray(const int* array, const size_t size) {
     printf("\n");
 }
 
-void sumEven(const int* array, const size_t size) {
+void summEven(const int* array, const size_t size) {
     checkArray(array, size);
     int result = 0;
     for (size_t i = 0; i < size; i++) {
@@ -173,7 +179,7 @@ void sumEven(const int* array, const size_t size) {
     printf("Сумма четных чисел %d.\n", result);
 }
 
-void fillRandom(int* array, const size_t size) {
+void fillArrayRandom(int* array, const size_t size) {
     checkArray(array, size);
     printf("Начало диапазона: ");
     const int start = getValue();
@@ -220,9 +226,9 @@ bool replace(int* copiedArray, const size_t size) {
                 printf("%d", copiedArray[j]);
             }
             printf("\n");
-            return True;
+            return true;
         }
     }
     printf("В массиве нет отрицательных элементов.");
-    return False;
+    return false;
 }
