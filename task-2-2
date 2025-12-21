@@ -13,7 +13,7 @@ double getValue();
 /**
  * @brief рассчитывает функцию 1 по заданным параметрам
  * @param x значение переменной x
- * @return возвращает функцию назад
+ * @return возвращает расчитанное значение функции
  */
 double function1(const double x);
 
@@ -21,7 +21,7 @@ double function1(const double x);
  * @brief рассчитывает функцию 2 по заданным параметрам
  * @param x значение переменной x
  * @param a значение переменной y
- * @return возвращает функцию назад
+ * @return возвращает расчитанное значение функции
  */
 double function2(const double x, const double a);
 
