@@ -49,7 +49,7 @@ void checkPositive(const double value);
 int main(void)
 {
     printf("Введите n:\n");
-    int n = getValue();
+    const int n = getValue();
     checkPositive(n);
     printf("Сумма первых %d членов последовательности равна %.6lf\n", n, getSumN(n));
     printf("Введите e:\n");
