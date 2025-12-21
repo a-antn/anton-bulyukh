@@ -53,7 +53,7 @@ int main(void)
     checkPositive(n);
     printf("Сумма первых %d членов последовательности равна %.6lf\n", n, getSumN(n));
     printf("Введите e:\n");
-    double e = getDouble();
+    const double e = getDouble();
     checkPositive(e);
     printf("Сумма с точностью %lf равна %.6lf\n", e, getSumE(e));
     return 0;
@@ -62,8 +62,7 @@ int main(void)
 int getValue()
 {
     int value = 0;
-    int result = scanf("%d", &value);
-    if (result != 1)
+    if (!scanf("%d", &value))
     {
         fprintf(stderr, "Ошибка ввода");
         exit(EXIT_FAILURE);
@@ -74,8 +73,7 @@ int getValue()
 double getDouble()
 {
     double value = 0;
-    double result = scanf("%lf", &value);
-    if (result != 1)
+    if (!scanf("%lf", &value))
     {
         fprintf(stderr, "Input error");
         exit(1);
