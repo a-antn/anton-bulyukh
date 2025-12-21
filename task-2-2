@@ -1,0 +1,72 @@
+#include <math.h>
+#include <float.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+/**
+ * @brief Считывает значение с клавиатуры и проверяет на правильность ввода
+ * @return Возвращает считанное значение, если оно введено корректно, 3 - если некорректно
+ */
+double getValue();
+
+/**
+ * @brief рассчитывает функцию 1 по заданным параметрам
+ * @param x значение переменной x
+ * @return возвращает функцию назад
+ */
+double function1(const double x);
+
+/**
+ * @brief рассчитывает функцию 2 по заданным параметрам
+ * @param x значение переменной x
+ * @param a значение переменной y
+ * @return возвращает функцию назад
+ */
+double function2(const double x, const double a);
+
+/**
+ * @brief точка входа в программу
+ * @return возвращает 0 в случае успеха
+ */
+int main(void)
+{
+    const double a = 1.65;
+    printf("Введите x: ");
+    double x = getValue();
+    if (x - 1.4 <= DBL_EPSILON)
+    {
+        if (fabs(x) < DBL_EPSILON)
+        {
+            fprintf(stderr, "Ошибка ввода, х должен быть > 0.");
+            exit(EXIT_FAILURE);
+        }
+        printf("y = %.3lf.", function1(x));
+    }
+    else
+    {
+        printf("y = %.3lf", function2(x, a));
+    }
+    return 0;
+}
+
+double getValue()
+{
+    double value = 0;
+    if (!scanf("%lf", &value))
+    {
+        fprintf(stderr, "Ошибка ввода\n");
+        exit(EXIT_FAILURE);
+    }
+    return value;
+}
+
+double function1(const double x)
+{
+    return (M_PI * pow(x, 2)) - (7 / pow(x, 2));
+}
+
+double function2(const double x, const double a)
+{
+    return log(x + 7 * sqrt(x + 2));
+}
