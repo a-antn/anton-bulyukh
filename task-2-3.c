@@ -19,7 +19,7 @@ double halfSumm(const double x, const double y);
 
 /**
  * @brief считывает значение, введённое с клавиатуры, и проверяет корректность ввода.
- * @return рассчитанный результат
+ * @return считанное число
  */
 double getValue(void);
 
