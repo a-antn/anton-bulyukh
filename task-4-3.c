@@ -5,13 +5,13 @@
 #define scanf_s scanf
 
 /**
- * @brief Считывает целое значение из стандартного ввода с проверкой результата scanf
+ * @brief Считывает целое значение с проверкой результата
  * @return Считанное значение типа int
  */
 int Value();
 
 /**
- * @brief Выводит приглашение, считывает размер массива и проверяет, что он больше нуля
+ * @brief Считывает размер массива и проверяет, что он больше нуля
  * @param message Текст приглашения к вводу
  * @return Размер массива в виде size_t
  */
@@ -50,7 +50,7 @@ void fillRandom(int** arr, const size_t rows,const size_t columns);
 int** getArray(const size_t rows, const size_t columns);
 
 /**
- * @brief Освобождает память, выделенную под двумерный массив
+ * @brief Освобождает память выделенную под двумерный массив
  * @param arr Указатель на массив
  * @param rows Количество строк
  */
@@ -65,7 +65,7 @@ void freeArray(int** arr, const size_t rows);
 void replaceMinOpposite(int** copyArr, const size_t rows, const size_t columns);
 
 /**
- * @brief Исключает строки, содержащие глобальный максимум, и выводит оставшиеся строки
+ * @brief Исключает строки, содержащие глобальный максиму и выводит оставшиеся строки
  * @param copyArr Указатель на массив
  * @param rows Количество строк
  * @param columns Количество столбцов
@@ -74,7 +74,7 @@ void replaceMinOpposite(int** copyArr, const size_t rows, const size_t columns);
 int delRowsWithMax(int** copyArr, const size_t rows, const size_t columns);
 
 /**
- * @brief Проверяет корректность диапазона значений min..max
+ * @brief Проверяет корректность диапазона значений от min до max
  * @param min Нижняя граница
  * @param max Верхняя граница
  */
