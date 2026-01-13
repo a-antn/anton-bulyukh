@@ -121,7 +121,7 @@ double getSumE(const double e, const double x)
 {
     double current = 1;
     double result = current;
-    for (int i = 1; fabs(current) > e; i++)
+    for (int i = 1; fabs(cosFunc(x) - result) > e; i++)
     {
         current *= getRecurent(i, x);
         result += current;
