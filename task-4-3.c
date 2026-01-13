@@ -150,7 +150,7 @@ int Value(void)
         return value;
     }
 
-size_t getSize(char* message)
+size_t getSize(const char* message)
 {
     printf("%s", message);
     int value = Value();
@@ -176,6 +176,7 @@ void fillArray(int** arr, const size_t rows, const size_t columns)
 
 void printArray(int** arr, const size_t rows, const size_t columns)
 {
+    checkArray(arr);
     printf("Ваш массив:\n");
     for (size_t i = 0; i < rows; i++)
     {
@@ -221,13 +222,14 @@ int** getArray(const size_t rows, const size_t columns)
     checkArray(arr);
     for (size_t i = 0; i<rows; i++ ) {
         arr[i] = malloc(columns * sizeof(int));
-        
+        checkArray(arr[i]);
     }
     return arr;
 }
 
 void freeArray(int** arr, const size_t rows)
 {
+    checkArray(arr);
     for (size_t i = 0; i<rows; i++ )
     {
         free(arr[i]);
