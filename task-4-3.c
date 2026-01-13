@@ -15,7 +15,7 @@ int Value();
  * @param message Текст приглашения к вводу
  * @return Размер массива в виде size_t
  */
-size_t getSize(char* message);
+size_t getSize(const char* message);
 
 /**
  * @brief Заполняет двумерный массив значениями, введёнными пользователем
@@ -88,6 +88,11 @@ void checkRange(const int min, const int max);
  * @return Указатель на новый массив с теми же значениями
  */
 int** copyArray(int** arr, const size_t rows, const size_t columns);
+/**
+ * @brief Проверяет что массив не NULL
+ * @param arr  массив
+ */
+void checkArray(int** arr)
 
 /**
  * @brief RANDOM — заполнение массива случайными числами
@@ -126,9 +131,11 @@ int main()
     replaceMinOpposite(copyArr, rows, columns);
     printArray(copyArr, rows, columns);
     printf("Удаление строк, содержащих максимальный элемент:\n");
-    delRowsWithMax(copyArr, rows, columns);
+    int** copyArr2 = copyArray(arr, rows, columns);
+    delRowsWithMax(copyArr2, rows, columns);
     freeArray(arr, rows);
     freeArray(copyArr, rows);
+    freeArray(copyArr2, rows);
     return 0;
 }
 
@@ -181,8 +188,18 @@ void printArray(int** arr, const size_t rows, const size_t columns)
     printf("\n");
 }
 
+void checkArray(int** arr) {
+    if (arr == NULL)
+        {
+            fprintf(stderr,"Ошибка");
+            freeArray(arr, rows);
+            exit(1);
+        }
+}
+
 void fillRandom(int** arr, const size_t rows,const size_t columns)
-{
+{    
+    checkArray(arr)
     printf("Введите минимум:\n");
     int min = Value();
     printf("Введите максимум:\n");
@@ -201,14 +218,10 @@ void fillRandom(int** arr, const size_t rows,const size_t columns)
 int** getArray(const size_t rows, const size_t columns)
 {
     int** arr = malloc(rows * sizeof(int*));
+    checkArray(arr);
     for (size_t i = 0; i<rows; i++ ) {
         arr[i] = malloc(columns * sizeof(int));
-        if (arr == NULL)
-        {
-            fprintf(stderr,"Ошибка");
-            freeArray(arr, rows);
-            exit(1);
-        }
+        
     }
     return arr;
 }
@@ -233,6 +246,7 @@ void checkRange(const int min, const int max)
 }
 
 void replaceMinOpposite(int** copyArr, const size_t rows, const size_t columns) {
+    checkArray(copyArr);
     for (size_t j = 0; j < columns; j++) {
         size_t minIndex = 0;
         int minAbs = abs(copyArr[0][j]);
@@ -247,17 +261,8 @@ void replaceMinOpposite(int** copyArr, const size_t rows, const size_t columns) 
 }
 
 int** copyArray(int** arr, const size_t rows, const size_t columns) {
-    int** copyArr = malloc(rows * sizeof(int*));
-    for (size_t i = 0; i<rows; i++ )
-    {
-        copyArr[i] = malloc(columns * sizeof(int));
-    }
-    if (copyArr == NULL)
-    {
-        printf("Ошибка");
-        freeArray(copyArr, rows);
-        exit(1);
-    }
+    checkArray(arr);
+    int** copyArr = getArray(rows, columns);
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < columns; j++) {
             copyArr[i][j] = arr[i][j];
@@ -267,6 +272,7 @@ int** copyArray(int** arr, const size_t rows, const size_t columns) {
 }
 
 int delRowsWithMax(int** copyArr, const size_t rows, const size_t columns) {
+    checkArray(copyArr);
     int max = copyArr[0][0];
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < columns; j++) {
