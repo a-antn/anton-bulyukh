@@ -164,6 +164,7 @@ size_t getSize(const char* message)
 
 void fillArray(int** arr, const size_t rows, const size_t columns)
 {
+    checkArray(arr);
     for (size_t i = 0; i < rows; i++)
     {
         for (size_t j = 0; j<columns; j++)
