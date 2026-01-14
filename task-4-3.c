@@ -88,12 +88,18 @@ void checkRange(const int min, const int max);
  * @return Указатель на новый массив с теми же значениями
  */
 int** copyArray(int** arr, const size_t rows, const size_t columns);
+
 /**
  * @brief Проверяет что массив не NULL
  * @param arr  массив
  */
-void checkArray(int** arr)
-
+void checkArray(int** arr);
+/**
+ * @brief Проверяет что массив не NULL
+ * @param arr  массив
+ */
+void checkArraySolo(int* arr);
+                    
 /**
  * @brief RANDOM — заполнение массива случайными числами
  * @brief MANUAL — заполнение массива вручную
@@ -194,14 +200,19 @@ void checkArray(int** arr) {
     if (arr == NULL)
         {
             fprintf(stderr,"Ошибка");
-            freeArray(arr, rows);
             exit(1);
         }
 }
-
+void checkArraySolo(int* arr) {
+    if (arr == NULL)
+        {
+            fprintf(stderr,"Ошибка");
+            exit(1);
+        }
+}
 void fillRandom(int** arr, const size_t rows,const size_t columns)
 {    
-    checkArray(arr)
+    checkArray(arr);
     printf("Введите минимум:\n");
     int min = Value();
     printf("Введите максимум:\n");
@@ -223,7 +234,7 @@ int** getArray(const size_t rows, const size_t columns)
     checkArray(arr);
     for (size_t i = 0; i<rows; i++ ) {
         arr[i] = malloc(columns * sizeof(int));
-        checkArray(arr[i]);
+        checkArraySolo(arr[i]);
     }
     return arr;
 }
