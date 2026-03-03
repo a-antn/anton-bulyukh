@@ -6,14 +6,9 @@
 class Circle {
     private:
         /**
-         * @brief координата Х центра окружности
+         * @brief центр окружности
          */
-        double center_x;
-        
-        /**
-         * @brief координата Y центра окружности
-         */
-        double center_y;
+        Point center;
 
         /**
          * @brief радиус окружности
@@ -39,4 +34,5 @@ class Circle {
          * @return Значение длины окружности
          */
         double GetLength() const;
+
 };
