@@ -8,8 +8,7 @@ Circle::Circle(const Point center, const double radius) {
         std::cout<<"Error\n";
         exit(EXIT_FAILURE);
     }
-    this->center_x = center.GetX();
-    this->center_y = center.GetY();
+    this->center = center;
     this->radius = radius;
 }
 
@@ -19,4 +18,5 @@ double Circle::GetSquare() const {
 
 double Circle::GetLength() const {
     return 2*M_PI*radius;
+
 }
