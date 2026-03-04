@@ -3,7 +3,7 @@
 
 /**
  * @brief Считывает введенное значение
- * @params message Сообщение пользователю
+ * @param message Сообщение пользователю
  * @returns Введенное значение
  */
 double getValue(std::string message);
