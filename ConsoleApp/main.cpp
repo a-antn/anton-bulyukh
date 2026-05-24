@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "../DoublyLinkedList/doubly_linked_list.h"
+#include "/DoublyLinkedList/doubly_linked_list.h"
 
 /**
  * @brief оператор вывода списка в поток
