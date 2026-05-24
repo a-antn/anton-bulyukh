@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstddef>
 #include <numbers>
 #include <sstream>
 #include <stdexcept>
@@ -7,9 +8,9 @@
 
 void Pentagon::ValidateAndComputeSide()
 {
-    for (int i = 0; i < PentagonVertexCount; ++i)
+    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
     {
-        for (int j = i + 1; j < PentagonVertexCount; ++j)
+        for (std::size_t j = i + 1; j < PentagonVertexCount; ++j)
         {
             if (points[i] == points[j])
             {
@@ -19,17 +20,17 @@ void Pentagon::ValidateAndComputeSide()
         }
     }
 
-    double first_side = points[0].DistanceTo(points[1]);
+    const double first_side = points[0].DistanceTo(points[1]);
     if (first_side <= 0.0)
     {
         throw std::invalid_argument(
             "Pentagon: длина стороны должна быть положительной");
     }
 
-    for (int i = 1; i < PentagonVertexCount; ++i)
+    for (std::size_t i = 1; i < PentagonVertexCount; ++i)
     {
-        int next = (i + 1) % PentagonVertexCount;
-        double side = points[i].DistanceTo(points[next]);
+        const std::size_t next = (i + 1) % PentagonVertexCount;
+        const double side = points[i].DistanceTo(points[next]);
         if (std::fabs(side - first_side) > PentagonSideTolerance)
         {
             throw std::invalid_argument(
@@ -49,7 +50,7 @@ Pentagon::Pentagon(const std::array<Point, PentagonVertexCount>& vertices)
 Pentagon::Pentagon(const std::array<std::pair<double, double>, PentagonVertexCount>& coords)
     : points{}, side_length{0.0}
 {
-    for (int i = 0; i < PentagonVertexCount; ++i)
+    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
     {
         points[i] = Point(coords[i].first, coords[i].second);
     }
@@ -60,7 +61,7 @@ std::string Pentagon::ToString() const
 {
     std::ostringstream oss;
     oss << "Pentagon { сторона = " << side_length << ", вершины: ";
-    for (int i = 0; i < PentagonVertexCount; ++i)
+    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
     {
         oss << points[i].ToString();
         if (i + 1 < PentagonVertexCount)
@@ -91,7 +92,7 @@ double Pentagon::GetRadius() const
 void Pentagon::Read(std::istream& in)
 {
     std::array<Point, PentagonVertexCount> buffer;
-    for (int i = 0; i < PentagonVertexCount; ++i)
+    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
     {
         in >> buffer[i];
     }
@@ -102,7 +103,7 @@ void Pentagon::Read(std::istream& in)
 
 bool Pentagon::operator==(const Pentagon& other) const
 {
-    for (int i = 0; i < PentagonVertexCount; ++i)
+    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
     {
         if (points[i] != other.points[i])
         {
@@ -125,7 +126,7 @@ std::string Pentagon::ToString(const Pentagon& p)
 Pentagon Pentagon::ReadFromInput(std::istream& in)
 {
     std::array<Point, PentagonVertexCount> buffer;
-    for (int i = 0; i < PentagonVertexCount; ++i)
+    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
     {
         std::cout << "Введите координаты вершины #" << (i + 1)
                   << " (x y): ";
