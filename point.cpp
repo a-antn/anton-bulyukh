@@ -1,9 +1,10 @@
 #include <cmath>
+#include <limits>
 #include <sstream>
 
 #include "point.h"
 
-Point::Point(double x, double y)
+Point::Point(const double x, const double y)
     : x{x}, y{y}
 {
 }
@@ -20,8 +21,8 @@ double Point::GetY() const
 
 double Point::DistanceTo(const Point& other) const
 {
-    double dx = x - other.x;
-    double dy = y - other.y;
+    const double dx = x - other.x;
+    const double dy = y - other.y;
     return std::sqrt(dx * dx + dy * dy);
 }
 
@@ -34,7 +35,8 @@ std::string Point::ToString() const
 
 bool Point::operator==(const Point& other) const
 {
-    return x == other.x && y == other.y;
+    return std::fabs(x - other.x) <= std::numeric_limits<double>::epsilon()
+        && std::fabs(y - other.y) <= std::numeric_limits<double>::epsilon();
 }
 
 bool Point::operator!=(const Point& other) const
@@ -44,7 +46,7 @@ bool Point::operator!=(const Point& other) const
 
 bool Point::operator<(const Point& other) const
 {
-    if (x != other.x)
+    if (std::fabs(x - other.x) > std::numeric_limits<double>::epsilon())
     {
         return x < other.x;
     }
