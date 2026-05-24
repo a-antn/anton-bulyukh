@@ -1,142 +1,69 @@
-#include <cmath>
+#include <array>
+#include <clocale>
 #include <cstddef>
-#include <numbers>
-#include <sstream>
+#include <iostream>
 #include <stdexcept>
+#include <utility>
 
 #include "pentagon.h"
+#include "point.h"
+#include "polygon.h"
 
-void Pentagon::ValidateAndComputeSide()
+/**
+ * @brief точка входа
+ * @return 0 при успехе иначе 1
+ */
+int main()
 {
-    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
+    std::setlocale(LC_ALL, "Russian");
+
+    try
     {
-        for (std::size_t j = i + 1; j < PentagonVertexCount; ++j)
+        std::array<std::pair<double, double>, PentagonVertexCount> coords = { {
+            { 10.0,              0.0              },
+            {  3.0901699437495,  9.5105651629515  },
+            { -8.0901699437495,  5.8778525229247  },
+            { -8.0901699437495, -5.8778525229247  },
+            {  3.0901699437495, -9.5105651629515  }
+        } };
+
+        Pentagon p1(coords);
+        std::cout << "Пятиугольник p1: " << p1 << std::endl;
+        std::cout << "  Периметр:                    "
+                  << p1.GetPerimetr() << std::endl;
+        std::cout << "  Площадь:                     "
+                  << p1.GetSquare()   << std::endl;
+        std::cout << "  Радиус описанной окружности: "
+                  << p1.GetRadius()   << std::endl;
+
+        std::array<Point, PentagonVertexCount> verts;
+        for (std::size_t i = 0; i < PentagonVertexCount; ++i)
         {
-            if (points[i] == points[j])
-            {
-                throw std::invalid_argument(
-                    "Pentagon: совпадающие вершины недопустимы");
-            }
+            verts[i] = Point(coords[i].first, coords[i].second);
         }
-    }
+        Pentagon p2(verts);
 
-    const double first_side = points[0].DistanceTo(points[1]);
-    if (first_side <= 0.0)
+        std::cout << "p1 == p2 ? "
+                  << ((p1 == p2) ? "да" : "нет") << std::endl;
+
+        Polygon* base = &p1;
+        std::cout << "Через указатель на Polygon: " << *base << std::endl;
+
+        std::cout << "\nВведите свой пятиугольник."
+                  << " Координаты каждой вершины — два числа через пробел."
+                  << std::endl;
+        Pentagon p3 = Pentagon::ReadFromInput(std::cin);
+        std::cout << "Введён пятиугольник: "
+                  << Pentagon::ToString(p3) << std::endl;
+        std::cout << "  Периметр: " << p3.GetPerimetr() << std::endl;
+        std::cout << "  Площадь:  " << p3.GetSquare()   << std::endl;
+    }
+    catch (const std::invalid_argument& ex)
     {
-        throw std::invalid_argument(
-            "Pentagon: длина стороны должна быть положительной");
+        std::cerr << "Ошибка при создании пятиугольника: "
+                  << ex.what() << std::endl;
+        return 1;
     }
 
-    for (std::size_t i = 1; i < PentagonVertexCount; ++i)
-    {
-        const std::size_t next = (i + 1) % PentagonVertexCount;
-        const double side = points[i].DistanceTo(points[next]);
-        if (std::fabs(side - first_side) > PentagonSideTolerance)
-        {
-            throw std::invalid_argument(
-                "Pentagon: стороны должны быть равны");
-        }
-    }
-
-    side_length = first_side;
-}
-
-Pentagon::Pentagon(const std::array<Point, PentagonVertexCount>& vertices)
-    : points{vertices}, side_length{0.0}
-{
-    ValidateAndComputeSide();
-}
-
-Pentagon::Pentagon(const std::array<std::pair<double, double>, PentagonVertexCount>& coords)
-    : points{}, side_length{0.0}
-{
-    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
-    {
-        points[i] = Point(coords[i].first, coords[i].second);
-    }
-    ValidateAndComputeSide();
-}
-
-std::string Pentagon::ToString() const
-{
-    std::ostringstream oss;
-    oss << "Pentagon { сторона = " << side_length << ", вершины: ";
-    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
-    {
-        oss << points[i].ToString();
-        if (i + 1 < PentagonVertexCount)
-        {
-            oss << ", ";
-        }
-    }
-    oss << " }";
-    return oss.str();
-}
-
-double Pentagon::GetSquare() const
-{
-    return 0.25 * std::sqrt(5.0 * (5.0 + 2.0 * std::sqrt(5.0)))
-        * side_length * side_length;
-}
-
-double Pentagon::GetPerimetr() const
-{
-    return PentagonVertexCount * side_length;
-}
-
-double Pentagon::GetRadius() const
-{
-    return side_length / (2.0 * std::sin(std::numbers::pi / PentagonVertexCount));
-}
-
-void Pentagon::Read(std::istream& in)
-{
-    std::array<Point, PentagonVertexCount> buffer;
-    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
-    {
-        in >> buffer[i];
-    }
-
-    points = buffer;
-    ValidateAndComputeSide();
-}
-
-bool Pentagon::operator==(const Pentagon& other) const
-{
-    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
-    {
-        if (points[i] != other.points[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool Pentagon::operator!=(const Pentagon& other) const
-{
-    return !(*this == other);
-}
-
-std::string Pentagon::ToString(const Pentagon& p)
-{
-    return p.ToString();
-}
-
-Pentagon Pentagon::ReadFromInput(std::istream& in)
-{
-    std::array<Point, PentagonVertexCount> buffer;
-    for (std::size_t i = 0; i < PentagonVertexCount; ++i)
-    {
-        std::cout << "Введите координаты вершины #" << (i + 1)
-                  << " (x y): ";
-        in >> buffer[i];
-    }
-    return Pentagon(buffer);
-}
-
-std::ostream& operator<<(std::ostream& out, const Pentagon& p)
-{
-    out << p.ToString();
-    return out;
+    return 0;
 }
